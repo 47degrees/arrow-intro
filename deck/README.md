@@ -1,15 +1,31 @@
 
 <!-- .slide: class="center" -->
 
-## KΛTEGORY
+## About us
 
-Functional data types & abstractions for Kotlin
+|                |                                                      |
+|----------------|------------------------------------------------------|
+| ![Raul](https://github.com/raulraja.png?size=200) | ![Paco](https://github.com/pakoito.png?size=200) |
+| @raulraja, CTO @47deg | @pacoworks |
+
 
 ---
 
-## Origins
+## What started as...
 
-From Learning Exercise -> Solution for Typed FP in Kotlin
+Learning Exercise to learn FP over Slack
+
+---
+
+## ...Ended in
+
+Solution for Typed FP in Kotlin
+
+---
+
+## What is KΛTEGORY?
+
+A library for typed FP in Kotlin many of the type classes & data types you'd find in other langs like Scala and Haskell
 
 ---
 
@@ -35,6 +51,7 @@ Many data types to cover general use cases.
 import kategory.Option
 
 Option(1).map { it + 1 }
+//Option(2)
 ```
 
 ---
@@ -45,6 +62,7 @@ Option(1).map { it + 1 }
 import kategory.Try
 
 Try { throw RuntimeException("BOOM!") }.map { it + 1 }
+//Failure(RuntimeException("BOOM!"))
 ```
 
 ---
@@ -57,6 +75,7 @@ import kategory.Either.*
 val x = Right(1)
 val y = 1.right()
 x == y
+//true
 ```
 
 ---
@@ -68,12 +87,15 @@ import kategory.*
 
 data class Profile(val id: Long, val name: String, val phone: Int)
 
-fun profile(val maybeId: Option<Long>, val maybeName: Option<String>, val maybePhone: Option<Int>): Option<Profile> = 
-  Option.applicative().map(id, name, phone, { (n, phone, addresses) ->
-       Profile(name, phone, addresses)
+fun profile(val maybeId: Option<Long>, 
+            val maybeName: Option<String>, 
+            val maybePhone: Option<Int>): Option<Profile> = 
+  Option.applicative().map(id, name, phone, { (a, b, c) ->
+       Profile(a, b, c)
   })
 
 profile(1L.some(), "William Alvin Howard".some(), 555555555.some())
+//Some(Profile(1L, "William Alvin Howard", 555555555)
 ```
 
 ---
@@ -81,13 +103,15 @@ profile(1L.some(), "William Alvin Howard".some(), 555555555.some())
 ## Monad Comprehensions - Vanilla
 
 ```kotlin:ank
-fun profile(val maybeId: Option<Long>, val maybeName: Option<String>, val maybePhone: Option<Int>): Option<Profile> = 
-  Option.monad().binding {
-    val id = maybeId.bind()
-    val name = maybeName.bind()
-    val phone = maybePhone.bind()
-    yields(Profile(id, name, phone))
-  }
+fun profile(val maybeId: Option<Long>, 
+            val maybeName: Option<String>, 
+            val maybePhone: Option<Int>): Option<Profile> = 
+  Option.monad().binding { // <-- `coroutine starts`
+    val id = maybeId.bind() // <-- `suspended`
+    val name = maybeName.bind() // <-- `suspended`
+    val phone = maybePhone.bind() // <-- `suspended`
+    yields(Profile(id, name, phone)) 
+  } // <-- `coroutine ends`
   
 profile(2L.some(), "Haskell Brooks Curry".some(), 555555555.some())
 ```
@@ -99,11 +123,12 @@ profile(2L.some(), "Haskell Brooks Curry".some(), 555555555.some())
 ```kotlin
 Try.monadError().bindingE {
   val name = profileService().bind()
-  val phone = phoneService().bind() //throws ex
+  val phone = phoneService().bind() 
+  throw RuntimeException("BOOM") // <-- `raises errors to MonadError<F, Throwable>`
   val addresses = addressService().bind()
   yields(Profile(name, phone, addresses))  
 }
-// Failure(RuntimeException("Phone Service was unavailable"))
+//Failure(RuntimeException("BOOM"))
 ```
 
 ---
@@ -112,13 +137,18 @@ Try.monadError().bindingE {
 
 Stack-Safe comprehensions for Stack-Unsafe data types
 
-```kotlin:ank
-fun <F> stackSafeTestProgram(M: Monad<F>, n: Int, stopAt: Int): Free<F, Int> = M.bindingStackSafe {
-  val v = pure(n + 1).bind()
-  val r = if (v < stopAt) stackSafeTestProgram(M, v, stopAt).bind() else pure(v).bind()
-  yields(r)
-}
-stackSafeTestProgram(Id.monad(), 0, 500000)
+```kotlin
+fun <F> stackSafeTestProgram(M: Monad<F>, n: Int = 0, stopAt: Int = 1000000): Free<F, Int> =
+        M.bindingStackSafe {
+            val v = pure(n + 1).bind() // <-- auto binds on `Free<F, Int>`
+            val r = if (v < stopAt) { stackSafeTestProgram(M, v, stopAt).bind() }
+                    else { pure(v).bind() }
+            yields(r)
+        }
+
+val M = Id.monad()
+stackSafeTestProgram(M).run(M).ev()
+//Id(1000000)
 ```
 
 ---
@@ -133,7 +163,7 @@ val (binding: IO<List<User>>, unsafeCancel: Disposable) =
         bindAsync(ioAsync) { getProfile(friend.id) }
     }
     yields(listOf(userProfile) + friendProfiles)
-  }
+  } // <- returns `Tuple2<IO<List<User>>, Disposable>`
   
 unsafeCancel() //cancels all operations inside the coroutine
 ```
@@ -142,59 +172,101 @@ unsafeCancel() //cancels all operations inside the coroutine
 
 ## Monad Comprehensions - Context Aware
 
-Support for CoroutineContext
+Support for `CoroutineContext`
 
 ```kotlin
 ioMonad.binding {
-    val user = bindAsync(ioAsync) { getUserProfile("123") }
-    bindIn(DatabaseContext) { storeUser(user) }
-    bindIn(UIContext) { toastMessage("User cached!") }
+    val user = bindAsync(ioAsync) { getUserProfile("123") } //<-- binds on IO's pool
+    bindIn(DatabaseContext) { storeUser(user) } //<-- binds on DB's pool
+    bindIn(UIContext) { toastMessage("User cached!") } //<-- binds on UI thread
     yields(user)
 }
 ```
 
 ---
 
-## Kotlin limitations
-
-- Lacks Higher Kinded Types
-- Can't support compile time verified type class instances.
+## Kotlin limitations for Typed FP
 
 ---
 
-# Higher Kinded Types
+## Kotlin limitations for Typed FP
 
-For any datatype annotated with `@higherkind`
-
-```kotlin
-@higherkind
-sealed class Either<A, B> : EitherKind<A, B>
-```
-
-A HK representation is automatically provided
+Emulated Higher Kinds through [Lightweight higher-kinded Polymorphism](https://www.cl.cam.ac.uk/~jdy22/papers/lightweight-higher-kinded-polymorphism.pdf)
 
 ```kotlin
-class EitherHK private constructor()
+interface HK<out F, out A>
 
-typealias EitherKindPartial<A> = kindedj.Hk<EitherHK, A>
-typealias EitherKind<A, B> = kindedj.Hk<EitherKindPartial<A>, B>
+class OptionHK private constructor()
 
-inline fun <A, B> EitherKind<A, B>.ev(): Either<A, B> = this as Either<A, B>
+typealias OptionKind<A> = kategory.HK<OptionHK, A>
+
+inline fun <A> OptionKind<A>.ev(): Option<A> = this as Option<A>
+
+sealed class Option<out A> : OptionKind<A>
 ```
 
 ---
 
-We can now write polymorphic code in Kotlin that uses higher kinds
+## Kotlin limitations for Typed FP
 
-```kotlin
-inline fun <reified F, reified E, A> raiseError(e: E, ME: MonadError<F, E> = monadError()): HK<F, A> = ME.raiseError(e)
+Fear not, `@higherkind`'s got your back!
 
-raiseError<EitherKindPartial<String>, String, Int>("Not Found")
+```diff
++ @higherkind sealed class Either<A, B> : EitherKind<A, B>
+-
+- class EitherHK private constructor()
+- 
+- typealias EitherKindPartial<A> = kindedj.Hk<EitherHK, A>
+- typealias EitherKind<A, B> = kindedj.Hk<EitherKindPartial<A>, B>
+- 
+- inline fun <A, B> EitherKind<A, B>.ev(): Either<A, B> = this as Either<A, B>
 ```
 
 ---
 
-# Type Classes
+## Kotlin limitations for Typed FP
+
+No notion of implicits or Type class instance evidences verified at compile time
+
+```kotlin
+fun <F, A> A.some(AA: Applicative<OptionHK> /*<-- User is forced to provide instances explicitly */): Option<A> = 
+  AA.pure(this).ev()
+  
+1.some(Option.applicative()) //Option(1)
+```
+
+---
+
+## Kotlin limitations for Typed FP
+
+`(for now)` an implicit lookup system based on a global registry is provided
+
+```kotlin
+fun <A> A.some(AA: Applicative<OptionHK> = applicative() /*<-- Instances are discovered implicitly */): Option<A> = 
+  AA.pure(this).ev()
+  
+1.some() //Option(1)
+```
+
+---
+
+## KΛTEGORY ad-hoc polymorphism
+
+With emulated Higher Kinds and Type classes we can now write polymorphic code
+
+```kotlin
+inline fun <reified F, reified E, A> raiseError(e: E, ME: MonadError<F, E> = monadError()): HK<F, A> = 
+   ME.raiseError(e)
+
+raiseError<EitherKindPartial<String>, String, Int>("Not Found").ev() // <-- This is far from a ideal but `KEEP` this thought
+//Left("Not Found")
+```
+
+---
+
+## Type Classes
+
+This is how you define Type Classes in KΛTEGORY (for now)
 
 ```kotlin
 interface Functor<F> : Typeclass {
@@ -204,7 +276,13 @@ interface Functor<F> : Typeclass {
 
 ---
 
+## Implementing type class instances is easy...
+
+---
+
 # @deriving
+
+KΛTEGORY can derive instances based on conventions in your data types
 
 ```kotlin
 @higherkind
@@ -225,6 +303,8 @@ sealed class Option<out A> : OptionKind<A> {
 
 # @instance
 
+For those 3rd party data types not following conventions we can also generate the implicit machinery for discovery
+
 ```kotlin
 @instance(Either::class)
 interface EitherFunctorInstance<L> : Functor<EitherKindPartial<L>> {
@@ -237,25 +317,11 @@ interface EitherFunctorInstance<L> : Functor<EitherKindPartial<L>> {
 
 # KEEP-87
 
-A KEEP for Type Classes in Kotlin
+But we are not stopping here, we want to get rid of some of these hacks!
+
+KEEP-87 is A KEEP to introduce Type Classes in Kotlin
 
 https://github.com/Kotlin/KEEP/pull/87
-
----
-
-# KEEP-87
-
-Without type class support
-
-```kotlin
-interface Functor<F> : Typeclass {
-  fun <A, B> map(fa: HK<F, A>, f: (A) -> B): HK<F, B> //emulated hks  
-}
-
-fun <F, A, B> transform(fa: HK<F, A>, f: (A) -> B, FF: Functor<F> = functor()): HK<F, B> = FF.map(fa, f) //reflection based runtime lookups
-
-transform(Option(1), { it + 1}).ev() // safe downcast
-```
 
 ---
 
@@ -264,46 +330,64 @@ transform(Option(1), { it + 1}).ev() // safe downcast
 If KEEP-87 makes it to the lang
 
 ```kotlin
-extension interface Functor<F<_>> { //real Higher kinds positions
+extension interface Functor<F<_>> { // <-- real Higher kinds positions
   fun <A, B> map(fa: F<A>, f: (A) -> B): F<B>  
 }
 
-fun <F<_>, A, B> transform(fa: F<A>, f: (A) -> B): F<B> given Functor<F> = map(fa, f) //compile time verified
+extension object OptionFunctor: Functor<Option> { // <-- real Higher kinds positions
+  fun <A, B> map(fa: Option<A>, f: (A) -> B): Option<B>  
+}
 
-transform(Option(1), { it + 1 })// no need to downcast
+fun <F<_>, A, B> transform(fa: F<A>, f: (A) -> B): F<B> given Functor<F> = map(fa, f) // <-- compile time verified
+
+transform(Option(1), { it + 1 })// <-- no need to cast from HK representation
+//Option(2)
 ```
 
 ---
 
-# KEEP-87
-
-If KEEP-87 does not make it to the lang
-
-We will either support
-
-- Plan A: @implicit as global implicits through a compiler plugin
-- Plan B: Maintain a compiler fork that includes support for `KEEP-87` under a compiler flag
+## What if KEEP-87 does not make it to Kotlin?
 
 ---
 
-Modular
+## What if KEEP-87 does not make it to Kotlin?
 
-Being built and refactored with Android size constrains in mind.
+- `@implicit` as global implicits through a annotation processor / compiler plugin.
+- Discuss if a fork to the compiler with compatibility for `KEEP-87` under a compiler flag makes sense.
 
-- meta (@higherkind, @deriving, @implicit, @instance, @lenses, @prisms, @isos)
-- core (Semigroup, Monoid, Functor, Applicative, Monad...)
-- data (Option, Try, Either, Validated...)
-- effects (IO)
-- effects-rx2 (ObservableKW)
-- mtl (MonadReader, MonadState, MonadFilter,...)
-- free (Free, FreeApplicative, Trampoline, ...)
-- freestyle (@free, @tagless)
-- recursion 
-- optics (Prism, Iso, Lens, ...)
+---
+
+## KΛTEGORY is becoming modular
+
+Pick and choose what you'd like to use.
+
+| Module            | Contents                                                              |
+|-------------------|-----------------------------------------------------------------------|
+| typeclasses       | Semigroup,Monoid, Functor, Applicative, Monad...                      |
+| data              | Option, Try, Either, Validated...                                     |
+| effects           | IO                                                                    |
+| effects-rx2       | ObservableKW                                                          |
+| mtl               | MonadReader, MonadState, MonadFilter,...                              |
+| free              | Free, FreeApplicative, Trampoline, ...                                |
+| freestyle         | @free, @tagless                                                       |
+| recursion-schemes |                                                                       |
+| optics            | Prism, Iso, Lens, ...                                                 |
+| collections       |                                                                       |
+| meta              | @higherkind, @deriving, @implicit, @instance, @lenses, @prisms, @isos |
 
 ---
 
 # Credits
+
+KΛTEGORY is inspired in great libraries that have proven useful to the FP community:
+
+|             |
+|-------------|
+| [Cats](https://typelevel.org/cats/)        |
+| [Scalaz](https://github.com/scalaz/scalaz)      |
+| [Monocle](http://julien-truffaut.github.io/Monocle/)     |
+| [Funktionale](https://github.com/MarioAriasC/funKTionale) |
+| [Paguro](https://github.com/GlenKPeterson/Paguro)      |
 
 ---
 
@@ -350,10 +434,11 @@ Fine Cinnamon @ Slack, 47 Degrees, KindedJ organisation, JetBrains
 
 # Join us!
 
-[Kategory org](https://github.com/kategory)
-[Kategory gitter](https://gitter.im/kategory)
-#kategory in KotlinLang
-#kategory in Android Study Group
+|        |                                                 |
+|--------|-------------------------------------------------|
+| Github | https://github.com/kategory                     |
+| Slack  | https://kotlinlang.slack.com/messages/C5UPMM0A0 |
+| Gitter | https://gitter.im/kategory/Lobby                |
 
 We provide 1:1 mentoring for both users & new contributors!
 
