@@ -1,0 +1,201 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+  <title>Freestyle</title>
+
+  <link rel="stylesheet" href="css/reveal.css">
+  <!-- Theme used for syntax highlighting of code -->
+  <link rel="stylesheet" href="custom/css/dracula.css">
+  <link rel="stylesheet" href="custom/css/theme.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js">
+  </script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/numeral.js/2.0.6/numeral.min.js"></script>
+  <script src="http://underscorejs.org/underscore-min.js">
+  </script>
+  <script>
+    var link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.type = 'text/css';
+    link.href = window.location.search.match(/print-pdf/gi) ? 'css/print/pdf.css' : 'css/print/paper.css';
+    document.getElementsByTagName('head')[0].appendChild(link);
+  </script>
+</head>
+  
+
+<body>
+  <div class="reveal">
+    <div class="slides">
+      <section class="main">
+        <div class="main-flex">
+          <div class="main-element">
+            <img src="custom/images/freestyle-logo.png" alt="">
+            <h1>KΛTEGORY</h1>
+            <p>Functional data types & abstractions for Kotlin</p>
+          </div>
+        </div>
+      </section>
+      <section data-markdown="README.md" data-separator-notes="^Note:" data-state="slides"></section>
+    </div>
+    <div class="footer">
+      <a href="http://twitter.com/raulraja">@raulraja</a>
+      <a href="http://kategory.io">kategory.io</a>
+    </div>
+  </div>
+
+  <script src="lib/js/head.min.js"></script>
+  <script src="js/reveal.js"></script>
+
+  <script>
+    // More info https://github.com/hakimel/reveal.js#configuration
+    Reveal.initialize({
+      controls: false,
+      history: true,
+      transition: 'none',
+      slideNumber: 'c/t',
+      help: true,
+      width: "100%",
+      height: "100%",
+      margin: 0,
+      // More info https://github.com/hakimel/reveal.js#dependencies
+      dependencies: [{
+          src: 'plugin/markdown/marked.js'
+        },
+        {
+          src: 'plugin/markdown/markdown.js'
+        },
+        {
+          src: 'plugin/notes/notes.js',
+          async: true
+        },
+        {
+          src: 'node_modules/reveal.js-menu/menu.js'
+        },
+        {
+          src: 'plugin/highlight/highlight.js',
+          async: true,
+          callback: function() {
+            hljs.initHighlightingOnLoad();
+          }
+        }
+      ]
+    });
+    Reveal.addEventListener('slides', function() {
+      renderFunctionKGraph();
+      renderCoproductGraph();
+    });
+  </script>
+  <script>
+    Chart.defaults.global.defaultFontColor = '#fff';
+    Chart.defaults.global.defaultFontFamily = 'pragmatapro';
+
+    function renderFunctionKGraph() {
+      $.getJSON('custom/data/bench-functionk.json', function(data) {
+        var ctx = document.getElementById('bench-functionk');
+        var catsData = _.filter(data, function(d) {
+          return d.benchmark.endsWith('cats');
+        })
+        var freestyleData = _.filter(data, function(d) {
+          return d.benchmark.endsWith('freestyle');
+        })
+        var labels = _.map(freestyleData, function(d) {
+          return d.benchmark.split(".")[1].replace(/_/g, ' ').trim();
+        })
+        var myChart = new Chart(ctx, {
+          type: 'line',
+          data: {
+            labels: labels,
+            datasets: [{
+              label: 'cats.free.Free ops/sec',
+              data: _.map(catsData, function(d) {
+                return Math.ceil(d.primaryMetric.score);
+              }),
+              borderWidth: 1,
+              borderColor: 'rgba(241, 250, 140, 1)',
+              backgroundColor: 'rgba(241, 250, 140, 0.2)'
+            }, {
+              label: 'freestyle ops/sec',
+              data: _.map(freestyleData, function(d) {
+                return Math.ceil(d.primaryMetric.score);
+              }),
+              borderWidth: 1,
+              borderColor: 'rgba(139, 233, 253, 1)',
+              backgroundColor: 'rgba(139, 233, 253, 0.2)'
+            }]
+          },
+          options: {
+            scales: {
+              yAxes: [{
+                ticks: {
+                  beginAtZero: true,
+                  callback: function(value, index, values) {
+                    return numeral(value).format('0a');
+                  }
+                }
+              }]
+            }
+          }
+        });
+      });
+    }
+
+    function renderCoproductGraph() {
+      $.getJSON('custom/data/bench-coproduct.json', function(rawData) {
+        var ctx = document.getElementById('bench-coproduct');
+        var data = rawData.sort(function(a, b) {
+          return a.n - b.n
+        }); //.filter(function(d) { return d.n <= 40 });
+        var catsData = data.filter(function(d) {
+          return d.impl == "cats"
+        })
+        var iotaData = data.filter(function(d) {
+          return d.impl == "iota"
+        })
+        var labels = _.map(iotaData, function(d) {
+          return d.n;
+        })
+        var myChart = new Chart(ctx, {
+          type: 'line',
+          data: {
+            labels: labels,
+            datasets: [{
+              label: 'cats.data.Coproduct ops/sec',
+              data: _.map(catsData, function(d) {
+                return Math.ceil(d.score.value);
+              }),
+              borderWidth: 1,
+              borderColor: 'rgba(241, 250, 140, 1)',
+              backgroundColor: 'rgba(241, 250, 140, 0.2)'
+            }, {
+              label: 'iota ops/sec',
+              data: _.map(iotaData, function(d) {
+                return Math.ceil(d.score.value);
+              }),
+              borderWidth: 1,
+              borderColor: 'rgba(139, 233, 253, 1)',
+              backgroundColor: 'rgba(139, 233, 253, 0.2)'
+            }]
+          },
+          options: {
+            scales: {
+              yAxes: [{
+                ticks: {
+                  beginAtZero: true,
+                  callback: function(value, index, values) {
+                    return numeral(value).format('0a');
+                  }
+                }
+              }]
+            }
+          }
+        });
+      });
+    }
+  </script>
+</body>
+
+</html>
