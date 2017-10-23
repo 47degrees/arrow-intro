@@ -10,7 +10,7 @@
   <link rel="stylesheet" href="css/reveal.css">
   <!-- Theme used for syntax highlighting of code -->
   <link rel="stylesheet" href="custom/css/code-theme.css">
-  <link rel="stylesheet" href="custom/css/theme.css">
+    <link rel="stylesheet" href="css/theme/kategory.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js">
   </script>
@@ -30,15 +30,10 @@
 <body>
   <div class="reveal">
     <div class="slides">
-      <section class="main">
-        <div class="main-flex">
-          <div class="main-element">
-            <img src="custom/images/kategory-logo.svg" alt="">
-            <h1>KΛTEGORY</h1>
-            <p>Functional Data Types & Abstractions for Kotlin</p>
-            <p><a href="http://kategory.io">http://kategory.io</a></p>
-          </div>
-        </div>
+      <section class="cover" data-background="#193E88">
+        <img src="custom/images/kategory-logo.svg" alt="">
+        <h2>KΛTEGORY</h2>
+        <p>Functional data types & abstractions for Kotlin</p>
       </section>
       <section data-markdown="README.md" data-separator-notes="^Note:" data-state="slides"></section>
     </div>
@@ -60,8 +55,6 @@
       transition: 'none',
       slideNumber: 'c/t',
       help: true,
-      width: "100%",
-      height: "100%",
       margin: 0,
       // More info https://github.com/hakimel/reveal.js#dependencies
       dependencies: [{

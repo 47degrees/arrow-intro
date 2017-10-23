@@ -1,0 +1,41 @@
+/**
+ * Beige theme for reveal.js.
+ *
+ * Copyright (C) 2011-2012 Hakim El Hattab, http://hakim.se
+ */
+// Default mixins and settings -----------------
+@import "../template/mixins";
+@import "../template/settings"; // ---------------------------------------------
+// Include theme-specific fonts
+@import url(https://fonts.googleapis.com/css?family=Fira+Sans:400,500,600,700);
+@import url(https://fonts.googleapis.com/css?family=Titillium+Web:400,600);
+// Override theme settings (see ../template/settings.scss)
+$backgroundColor: #EDF1FC;
+$coverColor: #fff;
+$mainFont: 'Titillium Web', sans-serif;
+$mainColor: #375084;
+$headingColor: #193E88;
+$mainFontSize: 24px;
+$headingFont: 'Fira Sans', sans-serif;
+$headingFontWeight: 500;
+$headingTextTransform: capitalize;
+$linkColor: #61A8FF;
+$linkColorHover: lighten( $linkColor, 15% );
+// Theme template ------------------------------
+@import "../template/theme"; // ---------------------------------------------
+
+.reveal {
+	.cover {
+		h2,
+		p {
+			color: $coverColor;
+		}
+	}
+}
+/* Images */
+.reveal section img {
+	margin: 0;
+	background: none;
+	border: 0;
+	box-shadow: none;
+}
