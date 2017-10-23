@@ -310,7 +310,38 @@ Being built and refactored with Android size constrains in mind.
 # Team
 
 Contributors:
-@JorgeCastilloPrz, @ffgiraldez, @anstaendig, @nomisRev, @wiyarmir, @Guardiola31337, @Atternatt, @JMPergar, @aballano, @npatarino, @jrgonzalezg, @tonilopezmr, @victorg1991, @pablisco, @pt2121, @sanogueralorenzo, @glenkpeterson, @arturogutierrez, @calvellido, @dominv, @NigelHeylen, @ersin-ertan, @javipacheco & @Takhion
+
+|        |        |
+|--------------------------------------------------|-------------------|
+| ![](https://github.com/anstaendig.png?size=48)       | @anstaendig       |
+| ![](https://github.com/arturogutierrez.png?size=48)  | @arturogutierrez  |
+| ![](https://github.com/ffgiraldez.png?size=48)       | @ffgiraldez       |
+| ![](https://github.com/Guardiola31337.png?size=48)   | @Guardiola31337   |
+| ![](https://github.com/javipacheco.png?size=48)      | @javipacheco      |
+| ![](https://github.com/JMPergar.png?size=48)         | @JMPergar         |
+| ![](https://github.com/JorgeCastilloPrz.png?size=48) | @JorgeCastilloPrz |
+| ![](https://github.com/jrgonzalezg.png?size=48)      | @jrgonzalezg      |
+| ![](https://github.com/nomisRev.png?size=48)         | @nomisRev         |
+| ![](https://github.com/npatarino.png?size=48)        | @npatarino        |
+| ![](https://github.com/pablisco.png?size=48)         | @pablisco         |
+| ![](https://github.com/pakoito.png?size=48)          | @pakoito          |
+| ![](https://github.com/pedrovgs.png?size=48)         | @pedrovgs         |
+| ![](https://github.com/pt2121.png?size=48)           | @pt2121           |
+| ![](https://github.com/raulraja.png?size=48)         | @raulraja         |
+| ![](https://github.com/wiyarmir.png?size=48)         | @wiyarmir         |
+| ![](https://github.com/andyscott.png?size=48)        | @andyscott        |
+| ![](https://github.com/Atternatt.png?size=48)        | @Atternatt        |
+| ![](https://github.com/calvellido.png?size=48)       | @calvellido       |
+| ![](https://github.com/dominv.png?size=48)           | @dominv           |
+| ![](https://github.com/GlenKPeterson.png?size=48)    | @GlenKPeterson    |
+| ![](https://github.com/israelperezglez.png?size=48)  | @israelperezglez  |
+| ![](https://github.com/sanogueralorenzo.png?size=48) | @sanogueralorenzo |
+| ![](https://github.com/Takhion.png?size=48)          | @Takhion          |
+| ![](https://github.com/victorg1991.png?size=48)      | @victorg1991      |
+| ![](https://github.com/tonilopezmr.png?size=48)      | @tonilopezmr      |
+| ![](https://github.com/NigelHeylen.png?size=48)      | @NigelHeylen      |
+| ![](https://github.com/ersin-ertan.png?size=48)      | @ersin-ertan      |
+
 
 Teams:
 Fine Cinnamon @ Slack, 47 Degrees, KindedJ organisation, JetBrains
