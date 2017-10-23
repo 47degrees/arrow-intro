@@ -7,29 +7,66 @@ Functional data types & abstractions for Kotlin
 
 ---
 
-## Datatypes
+## Origins
 
-Many data types to cover general use cases.
-
-* Error Handling: `Option`, `Try`, `Validated`, `Either`, `Ior`
-* Collections : `ListKW`, `SequenceKW`, `MapKW`, `SetKW`
-* DI, State, Logging: `Reader`, `Writer`, `State`
-* Transformers: `ReaderT`, `WriterT`, `OptionT`, `StateT`, `EitherT`
-* Evaluation and Stack Safety: `Eval`, `Trampoline`, `Free`, `FunctionN`
-* Effect capturing: `IO`, `Free`, `ObservableKW`, 
-* Others: `Coproduct`, `Coreader`, `Const`, ...
+From Learning Exercise -> Solution for Typed FP in Kotlin
 
 ---
 
-## Applicative Builders
+## Data types
+
+Many data types to cover general use cases.
+
+|                |                                                      |
+|----------------|------------------------------------------------------|
+| Error Handling | `Option`,`Try`, `Validated`, `Either`, `Ior`         |
+| Collections    | `ListKW`, `SequenceKW`, `MapKW`, `SetKW`             |
+| RWS            | `Reader`, `Writer`, `State`                          |
+| Transformers   | `ReaderT`, `WriterT`, `OptionT`, `StateT`, `EitherT` |
+| Evaluation     | `Eval`, `Trampoline`, `Free`, `FunctionN`            |
+| Effects        | `IO`, `Free`, `ObservableKW`                         |
+| Others         | `Coproduct`, `Coreader`, `Const`, ...                |
+
+---
+
+## A few syntax examples
+
+```kotlin
+import kategory.Option
+
+Option(1).map { it + 1 }
+```
+
+---
+
+## A few syntax examples
+
+```kotlin
+import kategory.Try
+
+Try { throw RuntimeException("BOOM!") }.map { it + 1 }
+```
+
+---
+
+## A few syntax examples
+
+```kotlin
+import kategory.Either.*
+
+val x = Right(1)
+val y = 1.right()
+x == y
+```
+
+---
+
+## Applicative Builder
 
 ```kotlin:ank
 import kategory.*
 
-data class Profile(
-  val id: Long, 
-  val name: String, 
-  val phone: Int)
+data class Profile(val id: Long, val name: String, val phone: Int)
 
 fun profile(val maybeId: Option<Long>, val maybeName: Option<String>, val maybePhone: Option<Int>): Option<Profile> = 
   Option.applicative().map(id, name, phone, { (n, phone, addresses) ->
@@ -55,7 +92,7 @@ fun profile(val maybeId: Option<Long>, val maybeName: Option<String>, val maybeP
 profile(2L.some(), "Haskell Brooks Curry".some(), 555555555.some())
 ```
 
---- 
+---
 
 ## Monad Comprehensions - Exception Aware
 
@@ -69,7 +106,7 @@ Try.monadError().bindingE {
 // Failure(RuntimeException("Phone Service was unavailable"))
 ```
 
---- 
+---
 
 ## Monad Comprehensions - Stack-Safe
 
@@ -83,7 +120,8 @@ fun <F> stackSafeTestProgram(M: Monad<F>, n: Int, stopAt: Int): Free<F, Int> = M
 }
 stackSafeTestProgram(Id.monad(), 0, 500000)
 ```
---- 
+
+---
 
 ## Monad Comprehensions - Cancellable
 
@@ -194,6 +232,7 @@ interface EitherFunctorInstance<L> : Functor<EitherKindPartial<L>> {
     fa.ev().map(f)
 }
 ```
+
 ---
 
 # KEEP-87
@@ -244,7 +283,6 @@ We will either support
 
 - Plan A: @implicit as global implicits through a compiler plugin
 - Plan B: Maintain a compiler fork that includes support for `KEEP-87` under a compiler flag
-
 
 ---
 

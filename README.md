@@ -13,7 +13,7 @@ If you wish to run this in a local environment on reveal.js at http://localhost:
 
 ```bash
 git clone git@github.com:47deg/kategory-intro.git
-cd deck
+cd kategory-intro/deck
 npm install
 npm start 
 ```
