@@ -311,8 +311,8 @@ Being built and refactored with Android size constrains in mind.
 
 Contributors:
 
-|        |        |
-|--------------------------------------------------|-------------------|
+|                                                      |                   |
+|------------------------------------------------------|-------------------|
 | ![](https://github.com/anstaendig.png?size=48)       | @anstaendig       |
 | ![](https://github.com/arturogutierrez.png?size=48)  | @arturogutierrez  |
 | ![](https://github.com/ffgiraldez.png?size=48)       | @ffgiraldez       |
