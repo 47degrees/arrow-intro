@@ -14,7 +14,7 @@ Solution for Typed FP in Kotlin
 
 ## What is KΛTEGORY?
 
-A library for typed FP in Kotlin many of the type classes & data types you'd find in other langs like Scala and Haskell
+A library for typed FP in Kotlin with the traditional type classes and data types
 
 ---
 
@@ -89,7 +89,9 @@ profile(1L.some(), "William Alvin Howard".some(), 555555555.some())
 
 ---
 
-## Monad Comprehensions - Vanilla
+## Comprehensions - Vanilla
+
+Generalized to all monads
 
 ```kotlin:ank
 fun profile(val maybeId: Option<Long>,
@@ -107,7 +109,9 @@ profile(2L.some(), "Haskell Brooks Curry".some(), 555555555.some())
 
 ---
 
-## Monad Comprehensions - Exception Aware
+## Comprehensions - Exception Aware
+
+Automatically captures exceptions for instances of `MonadError<F, Throwable>`
 
 ```kotlin
 Try.monadError().bindingE {
@@ -122,7 +126,7 @@ Try.monadError().bindingE {
 
 ---
 
-## Monad Comprehensions - Stack-Safe
+## Comprehensions - Stack-Safe
 
 Stack-Safe comprehensions for Stack-Unsafe data types
 
@@ -144,6 +148,8 @@ stackSafeTestProgram(M).run(M).ev()
 
 ## Monad Comprehensions - Cancellable
 
+Supports cancelling tasks initiated inside the coroutine
+
 ```kotlin
 val (binding: IO<List<User>>, unsafeCancel: Disposable) =
   ioMonadError.bindingECancellable {
@@ -154,14 +160,14 @@ val (binding: IO<List<User>>, unsafeCancel: Disposable) =
     yields(listOf(userProfile) + friendProfiles)
   } // <- returns `Tuple2<IO<List<User>>, Disposable>`
 
-unsafeCancel() //cancels all operations inside the coroutine
+unsafeCancel() //the disposable instance can cancel all operations inside the coroutine
 ```
 
 ---
 
 ## Monad Comprehensions - Context Aware
 
-Support for `CoroutineContext`
+Allows switching contexts in which `bind/flatMap` takes place
 
 ```kotlin
 ioMonad.binding {
@@ -171,6 +177,222 @@ ioMonad.binding {
     yields(user)
 }
 ```
+
+---
+
+## Transforming immutable data
+
+KΛTEGORY includes an `optics` library that make working with immutable data a breeze
+
+```kotlin
+data class Street(val number: Int, val name: String)
+data class Address(val city: String, val street: Street)
+data class Company(val name: String, val address: Address)
+data class Employee(val name: String, val company: Company)
+
+val employee = Employee("John Doe", Company("Kategory", Address("Functional city", Street(23, "lambda street"))))
+employee
+//Employee(name=John Doe, company=Company(name=Kategory, address=Address(city=Functional city, street=Street(number=23, name=lambda street))))
+```
+
+---
+
+## Transforming immutable data
+
+while `kotlin` provides a synthetic `copy` method on data classes dealing with nested data can be tedious
+
+```kotlin
+employee.copy(
+        company = employee.company.copy(
+                address = employee.company.address.copy(
+                        street = employee.company.address.street.copy(
+                                name = employee.company.address.street.name.capitalize()
+                        )
+                )
+        )
+)
+//Employee(name=John Doe, company=Company(name=Kategory, address=Address(city=Functional city, street=Street(number=23, name=Lambda street))))
+```
+
+---
+
+## Optics without boilerplate
+
+You may define composable `Lenses` to work with immutable data transformations
+
+```kotlin
+val employeeCompany: Lens<Employee, Company> = Lens(
+        get = { it.company },
+        set = { company -> { employee -> employee.copy(company = company) } }
+)
+
+val companyAddress: Lens<Company, Address> = Lens(
+        get = { it.address },
+        set = { address -> { company -> company.copy(address = address) } }
+)
+
+val addressStrees: Lens<Address, Street> = Lens(
+        get = { it.street },
+        set = { street -> { address -> address.copy(street = street) } }
+)
+
+val streetName: Lens<Street, String> = Lens(
+        get = { it.name },
+        set = { name -> { street -> street.copy(name = name) } }
+)
+
+val employeeStreetName: Lens<Employee, String> = employeeCompany compose companyAddress compose addressStrees compose streetName
+
+employeeStreetName.modify(employee, String::capitalize)
+```
+
+---
+
+## Optics without boilerplate
+
+Or just let KΛTEGORY `@lenses` do the dirty work
+
+```diff
++ @lenses data class Employee(val name: String, val company: Company)
+- val employeeCompany: Lens<Employee, Company> = Lens(
+-        get = { it.company },
+-        set = { company -> { employee -> employee.copy(company = company) } }
+- )
+-
+- val companyAddress: Lens<Company, Address> = Lens(
+-        get = { it.address },
+-        set = { address -> { company -> company.copy(address = address) } }
+- )
+-
+- val addressStrees: Lens<Address, Street> = Lens(
+-        get = { it.street },
+-        set = { street -> { address -> address.copy(street = street) } }
+- )
+-
+- val streetName: Lens<Street, String> = Lens(
+-        get = { it.name },
+-        set = { name -> { street -> street.copy(name = name) } }
+- )
+
+val employeeStreetName: Lens<Employee, String> = employeeCompany compose companyAddress compose addressStrees compose streetName
+
+employeeStreetName.modify(employee, String::capitalize)
+```
+
+---
+
+## Optics without boilerplate
+
+You can also define custom `Prism` for your sum types
+
+```kotlin
+import kategory.*
+import kategory.optics.*
+
+sealed class NetworkResult {
+    data class Success(val content: String): NetworkResult()
+    object Failure: NetworkResult()
+}
+
+val networkSuccessPrism: Prism<NetworkResult, NetworkResult.Success> = Prism(
+        getOrModify = { networkResult ->
+            when(networkResult) {
+                is NetworkResult.Success -> networkResult.right()
+                else -> networkResult.left()
+            }
+        },
+        reverseGet = { networkResult -> networkResult } //::identity
+)
+val networkResult = NetworkResult.Success("content")
+
+networkSuccessPrism.modify(networkResult) { success ->
+    success.copy(content = "different content")
+}
+//Success(content=different content)
+```
+
+---
+
+## Optics without boilerplate
+
+Or let `@prisms` do that for you
+
+```diff
++ @prisms sealed class NetworkResult {
++    data class Success(val content: String) : NetworkResult()
++    object Failure : NetworkResult()
++ }
+-
+- sealed class NetworkResult {
+-    data class Success(val content: String): NetworkResult()
+-    object Failure: NetworkResult()
+- }
+-
+- val networkSuccessPrism: Prism<NetworkResult, NetworkResult.Success> = Prism(
+-        getOrModify = { networkResult ->
+-            when(networkResult) {
+-                is NetworkResult.Success -> networkResult.right()
+-                else -> networkResult.left()
+-            }
+-        },
+-        reverseGet = { networkResult -> networkResult } //::identity
+- )
+```
+
+---
+
+## `@free` & `@tagless`
+
+[Freestyle](http://frees.io) is being ported to Kotlin by the team [@47deg](http://47deg.com).
+
+```diff
++ @free interface GesturesDSL<F> : GesturesDSLKind<A> {
++  fun click(view: UiObject): FreeS<F, Boolean>
++  fun pinchIn(view: UiObject, percent: Int, val steps: Int): FreeS<F, Boolean>
++  fun pinchOut(view: UiObject, percent: Int, val steps: Int): FreeS<F, Boolean>
++ }
+-
+- typealias ActionDSL<A> = Free<GesturesDSLHK, A>
+-
+- @higherkind sealed class GesturesDSL<A> : GesturesDSLKind<A> {
+-    object PressHome : GesturesDSL<Boolean>()
+-    data class Click(val view: UiObject) : GesturesDSL<Boolean>()
+-    data class PinchIn(val view: UiObject, val percent: Int, val steps: Int) : GesturesDSL<Boolean>()
+-    data class PinchOut(val view: UiObject, val percent: Int, val steps: Int) : GesturesDSL<Boolean>()
+-    companion object : FreeMonadInstance<GesturesDSLHK>
+- }
+-
+- fun click(view: UiObject): ActionDSL<Boolean> =
+-  Free.liftF(GesturesDSL.Click(ui))
+-  
+- fun pinchIn(view: UiObject, percent: Int, val steps: Int): ActionDSL<Boolean> =
+-  Free.liftF(GesturesDSL.PinchIn(percent, steps))
+-   
+- fun pinchOut(view: UiObject, percent: Int, val steps: Int): ActionDSL<Boolean> =
+-  Free.liftF(GesturesDSL.PinchOut(ui, percent, steps))
+```
+
+---
+
+<!-- .slide: class="table-large" -->
+
+## KΛTEGORY is becoming modular
+
+Pick and choose what you'd like to use.
+
+| Module            | Contents                                                              |
+|-------------------|-----------------------------------------------------------------------|
+| typeclasses       | Semigroup,Monoid, Functor, Applicative, Monad...                      |
+| data              | Option, Try, Either, Validated...                                     |
+| effects           | IO                                                                    |
+| effects-rx2       | ObservableKW                                                          |
+| mtl               | MonadReader, MonadState, MonadFilter,...                              |
+| free              | Free, FreeApplicative, Trampoline, ...                                |
+| freestyle         | @free, @tagless                                                       |
+| recursion-schemes |                                                                       |
+| optics            | Prism, Iso, Lens, ...                                                 |
+| collections       |                                                                       |
+| meta              | @higherkind, @deriving, @implicit, @instance, @lenses, @prisms, @isos |
 
 ---
 
@@ -343,28 +565,6 @@ transform(Option(1), { it + 1 })// <-- no need to cast from HK representation
 
 ---
 
-<!-- .slide: class="table-large" -->
-
-## KΛTEGORY is becoming modular
-
-Pick and choose what you'd like to use.
-
-| Module            | Contents                                                              |
-|-------------------|-----------------------------------------------------------------------|
-| typeclasses       | Semigroup,Monoid, Functor, Applicative, Monad...                      |
-| data              | Option, Try, Either, Validated...                                     |
-| effects           | IO                                                                    |
-| effects-rx2       | ObservableKW                                                          |
-| mtl               | MonadReader, MonadState, MonadFilter,...                              |
-| free              | Free, FreeApplicative, Trampoline, ...                                |
-| freestyle         | @free, @tagless                                                       |
-| recursion-schemes |                                                                       |
-| optics            | Prism, Iso, Lens, ...                                                 |
-| collections       |                                                                       |
-| meta              | @higherkind, @deriving, @implicit, @instance, @lenses, @prisms, @isos |
-
----
-
 # Credits
 
 KΛTEGORY is inspired in great libraries that have proven useful to the FP community:
@@ -433,3 +633,5 @@ We provide 1:1 mentoring for both users & new contributors!
 ---
 
 # Thanks!
+
+Thanks to everyone that makes KΛTEGORY possible
