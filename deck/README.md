@@ -180,6 +180,22 @@ ioMonad.binding {
 
 ---
 
+## Monad Comprehensions - Integration with 3rd parties
+
+Allows seamless integration with existing libraries like RxJava
+
+```kotlin
+observableMonad.binding {
+    val ticks = runAsync(observableAsync) { videoPlayer.getCurrentMilliseconds() }.subscribeOn(mainThread())
+    val initialTick = ticks.bind()
+    val timer = Observable.interval(100, MilliSeconds).k().bind()
+    val currentTick = ticks.bind()
+    yields(currentTick - initialTick)
+}
+```
+
+---
+
 ## Transforming immutable data
 
 KΛTEGORY includes an `optics` library that make working with immutable data a breeze
@@ -385,7 +401,7 @@ Pick and choose what you'd like to use.
 | typeclasses       | Semigroup,Monoid, Functor, Applicative, Monad...                      |
 | data              | Option, Try, Either, Validated...                                     |
 | effects           | IO                                                                    |
-| effects-rx2       | ObservableKW                                                          |
+| effects-rx2       | ObservableKW, FlowableKW                                              |
 | mtl               | MonadReader, MonadState, MonadFilter,...                              |
 | free              | Free, FreeApplicative, Trampoline, ...                                |
 | freestyle         | @free, @tagless                                                       |
