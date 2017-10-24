@@ -491,7 +491,7 @@ interface Functor<F> : Typeclass {
 
 ---
 
-# @deriving
+## @deriving
 
 KΛTEGORY can derive instances based on conventions in your data types
 
@@ -512,7 +512,7 @@ sealed class Option<out A> : OptionKind<A> {
 
 ---
 
-# @instance
+## @instance
 
 For those 3rd party data types not following conventions we can also generate the implicit machinery for discovery
 
@@ -526,7 +526,7 @@ interface EitherFunctorInstance<L> : Functor<EitherKindPartial<L>> {
 
 ---
 
-# KEEP-87
+## KEEP-87
 
 But we are not stopping here, we want to get rid of some of these hacks!
 
@@ -536,7 +536,7 @@ https://github.com/Kotlin/KEEP/pull/87
 
 ---
 
-# KEEP-87
+## KEEP-87
 
 If KEEP-87 makes it to the lang
 
@@ -557,6 +557,7 @@ transform(Option(1), { it + 1 })// <-- no need to cast from HK representation
 
 ---
 
+<!-- .slide: class="fix-ul" -->
 
 ## What if KEEP-87 does not make it to Kotlin?
 
@@ -565,19 +566,20 @@ transform(Option(1), { it + 1 })// <-- no need to cast from HK representation
 
 ---
 
-# Credits
+## Credits
 
 KΛTEGORY is inspired in great libraries that have proven useful to the FP community:
 
 - [Cats](https://typelevel.org/cats/)
 - [Scalaz](https://github.com/scalaz/scalaz)
+- [Freestyle](http://frees.io)
 - [Monocle](http://julien-truffaut.github.io/Monocle/)
 - [Funktionale](https://github.com/MarioAriasC/funKTionale)
 - [Paguro](https://github.com/GlenKPeterson/Paguro)
 
 ---
 
-# Team
+## Team
 
 Contributors:
 
@@ -620,7 +622,7 @@ Fine Cinnamon @ Slack, 47 Degrees, KindedJ organisation, JetBrains
 
 <!-- .slide: class="join-us" -->
 
-# Join us!
+## Join us!
 
 |        |                                                 |
 |--------|-------------------------------------------------|
@@ -632,6 +634,6 @@ We provide 1:1 mentoring for both users & new contributors!
 
 ---
 
-# Thanks!
+## Thanks!
 
 Thanks to everyone that makes KΛTEGORY possible

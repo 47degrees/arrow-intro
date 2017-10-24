@@ -21,7 +21,7 @@ body {
 
 .reveal {
   font-family: "Titillium Web", sans-serif;
-  font-size: 24px;
+  font-size: 22px;
   font-weight: normal;
   color: #375084; }
 
@@ -55,7 +55,7 @@ body {
   font-weight: 500;
   line-height: 1.2;
   letter-spacing: normal;
-  text-transform: capitalize;
+  text-transform: normal;
   text-shadow: none;
   word-wrap: break-word; }
 
@@ -63,7 +63,7 @@ body {
   font-size: 3.77em; }
 
 .reveal h2 {
-  font-size: 2.11em; }
+  font-size: 1.8em; }
 
 .reveal h3 {
   font-size: 1.55em; }
@@ -312,8 +312,8 @@ body {
 .reveal .slides .table-large {
   font-size: 20px; }
 
-.reveal table th,
-.reveal table td {
+.reveal table td,
+.reveal table th {
   border-bottom: 1px solid #C5D1E7; }
 
 .reveal .join-us table tbody tr:last-child {
@@ -324,12 +324,19 @@ body {
   font-family: "monoidregular", monospace; }
 
 .reveal code {
-  background: #fff; }
+  background: #fff;
+  padding: 0 6px;
+  border-radius: 4px; }
+
+.reveal p code,
+.reveal table code {
+  font-size: 16px; }
 
 .reveal pre {
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.15); }
   .reveal pre code {
     padding: 24px;
+    font-size: 12px;
     background: #fff;
     line-height: 1.7; }
 
@@ -355,6 +362,11 @@ body {
       margin-bottom: 10px; }
     .about ul li p {
       margin-top: 10px; }
+
+.fix-ul ul {
+  padding: 0 60px; }
+  .fix-ul ul li {
+    margin: 20px 0; }
 
 .reveal .footer {
   position: fixed;
