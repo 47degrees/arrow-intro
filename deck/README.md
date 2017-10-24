@@ -1,15 +1,4 @@
 
-<!-- .slide: class="center" -->
-
-## About us
-
-|                |                                                      |
-|----------------|------------------------------------------------------|
-| ![Raul](https://github.com/raulraja.png?size=200) | ![Paco](https://github.com/pakoito.png?size=200) |
-| @raulraja, CTO @47deg | @pacoworks |
-
-
----
 
 ## What started as...
 
@@ -87,9 +76,9 @@ import kategory.*
 
 data class Profile(val id: Long, val name: String, val phone: Int)
 
-fun profile(val maybeId: Option<Long>, 
-            val maybeName: Option<String>, 
-            val maybePhone: Option<Int>): Option<Profile> = 
+fun profile(val maybeId: Option<Long>,
+            val maybeName: Option<String>,
+            val maybePhone: Option<Int>): Option<Profile> =
   Option.applicative().map(id, name, phone, { (a, b, c) ->
        Profile(a, b, c)
   })
@@ -103,16 +92,16 @@ profile(1L.some(), "William Alvin Howard".some(), 555555555.some())
 ## Monad Comprehensions - Vanilla
 
 ```kotlin:ank
-fun profile(val maybeId: Option<Long>, 
-            val maybeName: Option<String>, 
-            val maybePhone: Option<Int>): Option<Profile> = 
+fun profile(val maybeId: Option<Long>,
+            val maybeName: Option<String>,
+            val maybePhone: Option<Int>): Option<Profile> =
   Option.monad().binding { // <-- `coroutine starts`
     val id = maybeId.bind() // <-- `suspended`
     val name = maybeName.bind() // <-- `suspended`
     val phone = maybePhone.bind() // <-- `suspended`
-    yields(Profile(id, name, phone)) 
+    yields(Profile(id, name, phone))
   } // <-- `coroutine ends`
-  
+
 profile(2L.some(), "Haskell Brooks Curry".some(), 555555555.some())
 ```
 
@@ -123,7 +112,7 @@ profile(2L.some(), "Haskell Brooks Curry".some(), 555555555.some())
 ```kotlin
 Try.monadError().bindingE {
   val name = profileService().bind()
-  val phone = phoneService().bind() 
+  val phone = phoneService().bind()
   throw RuntimeException("BOOM") // <-- `raises errors to MonadError<F, Throwable>`
   val addresses = addressService().bind()
   yields(Profile(name, phone, addresses))  
@@ -156,7 +145,7 @@ stackSafeTestProgram(M).run(M).ev()
 ## Monad Comprehensions - Cancellable
 
 ```kotlin
-val (binding: IO<List<User>>, unsafeCancel: Disposable) = 
+val (binding: IO<List<User>>, unsafeCancel: Disposable) =
   ioMonadError.bindingECancellable {
     val userProfile = bindAsync(ioAsync) { getUserProfile("123") }
     val friendProfiles = userProfile.friends().map { friend ->
@@ -164,7 +153,7 @@ val (binding: IO<List<User>>, unsafeCancel: Disposable) =
     }
     yields(listOf(userProfile) + friendProfiles)
   } // <- returns `Tuple2<IO<List<User>>, Disposable>`
-  
+
 unsafeCancel() //cancels all operations inside the coroutine
 ```
 
@@ -215,10 +204,10 @@ Fear not, `@higherkind`'s got your back!
 + @higherkind sealed class Either<A, B> : EitherKind<A, B>
 -
 - class EitherHK private constructor()
-- 
+-
 - typealias EitherKindPartial<A> = kindedj.Hk<EitherHK, A>
 - typealias EitherKind<A, B> = kindedj.Hk<EitherKindPartial<A>, B>
-- 
+-
 - inline fun <A, B> EitherKind<A, B>.ev(): Either<A, B> = this as Either<A, B>
 ```
 
@@ -229,9 +218,9 @@ Fear not, `@higherkind`'s got your back!
 No notion of implicits or Type class instance evidences verified at compile time
 
 ```kotlin
-fun <F, A> A.some(AA: Applicative<OptionHK> /*<-- User is forced to provide instances explicitly */): Option<A> = 
+fun <F, A> A.some(AA: Applicative<OptionHK> /*<-- User is forced to provide instances explicitly */): Option<A> =
   AA.pure(this).ev()
-  
+
 1.some(Option.applicative()) //Option(1)
 ```
 
@@ -242,9 +231,9 @@ fun <F, A> A.some(AA: Applicative<OptionHK> /*<-- User is forced to provide inst
 `(for now)` an implicit lookup system based on a global registry is provided
 
 ```kotlin
-fun <A> A.some(AA: Applicative<OptionHK> = applicative() /*<-- Instances are discovered implicitly */): Option<A> = 
+fun <A> A.some(AA: Applicative<OptionHK> = applicative() /*<-- Instances are discovered implicitly */): Option<A> =
   AA.pure(this).ev()
-  
+
 1.some() //Option(1)
 ```
 
@@ -255,7 +244,7 @@ fun <A> A.some(AA: Applicative<OptionHK> = applicative() /*<-- Instances are dis
 With emulated Higher Kinds and Type classes we can now write polymorphic code
 
 ```kotlin
-inline fun <reified F, reified E, A> raiseError(e: E, ME: MonadError<F, E> = monadError()): HK<F, A> = 
+inline fun <reified F, reified E, A> raiseError(e: E, ME: MonadError<F, E> = monadError()): HK<F, A> =
    ME.raiseError(e)
 
 raiseError<EitherKindPartial<String>, String, Int>("Not Found").ev() // <-- This is far from a ideal but `KEEP` this thought
@@ -308,7 +297,7 @@ For those 3rd party data types not following conventions we can also generate th
 ```kotlin
 @instance(Either::class)
 interface EitherFunctorInstance<L> : Functor<EitherKindPartial<L>> {
-    override fun <A, B> map(fa: EitherKind<L, A>, f: (A) -> B): Either<L, B> = 
+    override fun <A, B> map(fa: EitherKind<L, A>, f: (A) -> B): Either<L, B> =
     fa.ev().map(f)
 }
 ```
@@ -445,4 +434,3 @@ We provide 1:1 mentoring for both users & new contributors!
 ---
 
 # Thanks!
-
