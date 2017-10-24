@@ -584,34 +584,34 @@ KΛTEGORY is inspired in great libraries that have proven useful to the FP commu
 ## Team
 
 
-- ![](https://github.com/anstaendig.png) **@anstaendig**
-- ![](https://github.com/arturogutierrez.png) **@arturogutierrez**
-- ![](https://github.com/ffgiraldez.png) **@ffgiraldez**
-- ![](https://github.com/Guardiola31337.png) **@Guardiola31337**
-- ![](https://github.com/javipacheco.png) **@javipacheco**
-- ![](https://github.com/JMPergar.png)  **@JMPergar**
-- ![](https://github.com/JorgeCastilloPrz.png) **@JorgeCastilloPrz**
-- ![](https://github.com/jrgonzalezg.png) **@jrgonzalezg**
-- ![](https://github.com/nomisRev.png) **@nomisRev**
-- ![](https://github.com/npatarino.png) **@npatarino**
-- ![](https://github.com/pablisco.png) **@pablisco**
-- ![](https://github.com/pakoito.png)  **@pakoit**
-- ![](https://github.com/pedrovgs.png) **@pedrovgs**
-- ![](https://github.com/pt2121.png)   **@pt2121**
-- ![](https://github.com/raulraja.png) **@raulraja**
-- ![](https://github.com/wiyarmir.png) **@wiyarmir**
-- ![](https://github.com/andyscott.png) **@andyscott**
-- ![](https://github.com/Atternatt.png) **@Atternatt**
-- ![](https://github.com/calvellido.png) **@calvellido**
-- ![](https://github.com/dominv.png) **@dominv**
-- ![](https://github.com/GlenKPeterson.png) **@GlenKPeterson**
-- ![](https://github.com/israelperezglez.png) **@israelperezglez**
-- ![](https://github.com/sanogueralorenzo.png) **@sanogueralorenzo**
-- ![](https://github.com/Takhion.png) **@Takhion**
-- ![](https://github.com/victorg1991.png) **@victorg1991**
-- ![](https://github.com/tonilopezmr.png) **@tonilopezmr**
-- ![](https://github.com/NigelHeylen.png) **@NigelHeylen**
-- ![](https://github.com/ersin-ertan.png) **@ersin-ertan**
+- [![](https://github.com/anstaendig.png) **anstaendig**](https://github.com/anstaendig)
+- [![](https://github.com/arturogutierrez.png) **arturogutierrez**](https://github.com/arturogutierrez)
+- [![](https://github.com/ffgiraldez.png) **ffgiraldez**](https://github.com/ffgiraldez)
+- [![](https://github.com/Guardiola31337.png) **Guardiola31337**](https://github.com/Guardiola31337)
+- [![](https://github.com/javipacheco.png) **javipacheco**](https://github.com/javipacheco)
+- [![](https://github.com/JMPergar.png)  **JMPergar**](https://github.com/JMPergar)
+- [![](https://github.com/JorgeCastilloPrz.png) **JorgeCastilloPrz**](https://github.com/JorgeCastilloPrz)
+- [![](https://github.com/jrgonzalezg.png) **jrgonzalezg**](https://github.com/jrgonzalezg)
+- [![](https://github.com/nomisRev.png) **nomisRev**](https://github.com/nomisRev)
+- [![](https://github.com/npatarino.png) **npatarino**](https://github.com/npatarino)
+- [![](https://github.com/pablisco.png) **pablisco**](https://github.com/pablisco)
+- [![](https://github.com/pakoito.png)  **pakoito**](https://github.com/pakoito)
+- [![](https://github.com/pedrovgs.png) **pedrovgs**](https://github.com/pedrovgs)
+- [![](https://github.com/pt2121.png)   **pt2121**](https://github.com/pt2121)
+- [![](https://github.com/raulraja.png) **raulraja**](https://github.com/raulraja)
+- [![](https://github.com/wiyarmir.png) **wiyarmir**](https://github.com/wiyarmir)
+- [![](https://github.com/andyscott.png) **andyscott**](https://github.com/andyscott)
+- [![](https://github.com/Atternatt.png) **Atternatt**](https://github.com/Atternatt)
+- [![](https://github.com/calvellido.png) **calvellido**](https://github.com/calvellido)
+- [![](https://github.com/dominv.png) **dominv**](https://github.com/dominv)
+- [![](https://github.com/GlenKPeterson.png) **GlenKPeterson**](https://github.com/GlenKPeterson)
+- [![](https://github.com/israelperezglez.png) **israelperezglez**](https://github.com/israelperezglez)
+- [![](https://github.com/sanogueralorenzo.png) **sanogueralorenzo**](https://github.com/sanogueralorenzo)
+- [![](https://github.com/Takhion.png) **Takhion**](https://github.com/Takhion)
+- [![](https://github.com/victorg1991.png) **victorg1991**](https://github.com/victorg1991)
+- [![](https://github.com/tonilopezmr.png) **tonilopezmr**](https://github.com/tonilopezmr)
+- [![](https://github.com/NigelHeylen.png) **NigelHeylen**](https://github.com/NigelHeylen)
+- [![](https://github.com/ersin-ertan.png) **ersin-ertan**](https://github.com/ersin-ertan)
 
 
 ---

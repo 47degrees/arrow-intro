@@ -333,6 +333,9 @@ body {
 .reveal .join-us table tbody tr:last-child {
   border-bottom: 1px solid #C5D1E7; }
 
+.reveal a:hover img {
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.35); }
+
 .reveal code,
 .reveal pre {
   font-family: "monoidregular", monospace; }
