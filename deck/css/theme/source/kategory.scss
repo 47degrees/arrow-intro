@@ -65,7 +65,6 @@ $selectionColor: #fff;
 	}
 }
 // Table
-
 .reveal {
  .slides {
 	 .table-large {
@@ -80,6 +79,19 @@ $selectionColor: #fff;
 			border-bottom: 1px solid #C5D1E7;
 		}
 	}
+}
+
+// Join US
+.reveal {
+.join-us {
+	table {
+		tbody {
+			tr:last-child {
+				border-bottom: 1px solid #C5D1E7
+			}
+		}
+	}
+}
 }
 
 // Code

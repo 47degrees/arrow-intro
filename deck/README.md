@@ -335,9 +335,6 @@ transform(Option(1), { it + 1 })// <-- no need to cast from HK representation
 
 ---
 
-## What if KEEP-87 does not make it to Kotlin?
-
----
 
 ## What if KEEP-87 does not make it to Kotlin?
 
@@ -372,13 +369,11 @@ Pick and choose what you'd like to use.
 
 KΛTEGORY is inspired in great libraries that have proven useful to the FP community:
 
-|             |
-|-------------|
-| [Cats](https://typelevel.org/cats/)        |
-| [Scalaz](https://github.com/scalaz/scalaz)      |
-| [Monocle](http://julien-truffaut.github.io/Monocle/)     |
-| [Funktionale](https://github.com/MarioAriasC/funKTionale) |
-| [Paguro](https://github.com/GlenKPeterson/Paguro)      |
+- [Cats](https://typelevel.org/cats/)
+- [Scalaz](https://github.com/scalaz/scalaz)
+- [Monocle](http://julien-truffaut.github.io/Monocle/)
+- [Funktionale](https://github.com/MarioAriasC/funKTionale)
+- [Paguro](https://github.com/GlenKPeterson/Paguro)
 
 ---
 
@@ -422,6 +417,8 @@ Teams:
 Fine Cinnamon @ Slack, 47 Degrees, KindedJ organisation, JetBrains
 
 ---
+
+<!-- .slide: class="join-us" -->
 
 # Join us!
 
