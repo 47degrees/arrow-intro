@@ -25,6 +25,10 @@ $linkColorHover: lighten( $linkColor, 15% );
 @import "../template/theme"; // ---------------------------------------------
 
 .reveal {
+	position: relative;
+}
+
+.reveal {
 	.cover {
 		h2,
 		p {
@@ -32,10 +36,24 @@ $linkColorHover: lighten( $linkColor, 15% );
 		}
 	}
 }
-/* Images */
-.reveal section img {
-	margin: 0;
-	background: none;
-	border: 0;
-	box-shadow: none;
+// Images
+.reveal  {
+	section {
+		img {
+			margin: 0;
+			background: none;
+			border: 0;
+			box-shadow: none;
+		}
+	}
+}
+
+// Footer
+.reveal {
+	.footer {
+		position: fixed;
+		left: 40px;
+		top: 40px;
+		z-index: 40;
+	}
 }
