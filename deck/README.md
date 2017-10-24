@@ -398,17 +398,17 @@ Pick and choose what you'd like to use.
 
 | Module            | Contents                                                              |
 |-------------------|-----------------------------------------------------------------------|
-| typeclasses       | Semigroup,Monoid, Functor, Applicative, Monad...                      |
-| data              | Option, Try, Either, Validated...                                     |
-| effects           | IO                                                                    |
-| effects-rx2       | ObservableKW, FlowableKW                                              |
-| mtl               | MonadReader, MonadState, MonadFilter,...                              |
-| free              | Free, FreeApplicative, Trampoline, ...                                |
-| freestyle         | @free, @tagless                                                       |
+| typeclasses       | `Semigroup`, `Monoid`, `Functor`, `Applicative`, `Monad`...                      |
+| data              | `Option`, `Try`, `Either`, `Validated`...                                     |
+| effects           | `IO`                                                                    |
+| effects-rx2       | `ObservableKW`, `FlowableKW`                                                          |
+| mtl               | `MonadReader`, `MonadState`, `MonadFilter`,...                              |
+| free              | `Free`, `FreeApplicative`, `Trampoline`, ...                                |
+| freestyle         | `@free`, `@tagless`                                                       |
 | recursion-schemes |                                                                       |
-| optics            | Prism, Iso, Lens, ...                                                 |
+| optics            | `Prism`, `Iso`, `Lens`, ...                                                 |
 | collections       |                                                                       |
-| meta              | @higherkind, @deriving, @implicit, @instance, @lenses, @prisms, @isos |
+| meta              | `@higherkind`, `@deriving`, `@implicit`, `@instance`, `@lenses`, `@prisms`, `@isos` |
 
 ---
 
