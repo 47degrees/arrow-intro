@@ -346,6 +346,8 @@ transform(Option(1), { it + 1 })// <-- no need to cast from HK representation
 
 ---
 
+<!-- .slide: class="table-large" -->
+
 ## KΛTEGORY is becoming modular
 
 Pick and choose what you'd like to use.
