@@ -59,6 +59,7 @@ Try { throw RuntimeException("BOOM!") }.map { it + 1 }
 ## A few syntax examples
 
 ```kotlin
+import kategory.*
 import kategory.Either.*
 
 val x = Right(1)
@@ -134,8 +135,8 @@ Stack-Safe comprehensions for Stack-Unsafe data types
 fun <F> stackSafeTestProgram(M: Monad<F>, n: Int = 0, stopAt: Int = 1000000): Free<F, Int> =
         M.bindingStackSafe {
             val v = pure(n + 1).bind() // <-- auto binds on `Free<F, Int>`
-            val r = if (v < stopAt) { stackSafeTestProgram(M, v, stopAt).bind() }
-                    else { pure(v).bind() }
+            val r = if (v < stopAt) stackSafeTestProgram(M, v, stopAt).bind() 
+                    else pure(v).bind() 
             yields(r)
         }
 
@@ -180,13 +181,15 @@ ioMonad.binding {
 
 ---
 
-## Monad Comprehensions - Integration with 3rd parties
+## Monad Comprehensions - 3rd party integrations
 
 Allows seamless integration with existing libraries like RxJava
 
 ```kotlin
 observableMonad.binding {
-    val ticks = runAsync(observableAsync) { videoPlayer.getCurrentMilliseconds() }.subscribeOn(mainThread())
+    val ticks = runAsync(observableAsync) { 
+                    videoPlayer.getCurrentMilliseconds() 
+                }.subscribeOn(mainThread())
     val initialTick = ticks.bind()
     val timer = Observable.interval(100, MilliSeconds).k().bind()
     val currentTick = ticks.bind()
@@ -206,7 +209,10 @@ data class Address(val city: String, val street: Street)
 data class Company(val name: String, val address: Address)
 data class Employee(val name: String, val company: Company)
 
-val employee = Employee("John Doe", Company("Kategory", Address("Functional city", Street(23, "lambda street"))))
+val employee = Employee("John Doe", 
+                 Company("Kategory", 
+                  Address("Functional city", 
+                    Street(23, "lambda street"))))
 employee
 //Employee(name=John Doe, company=Company(name=Kategory, address=Address(city=Functional city, street=Street(number=23, name=lambda street))))
 ```
@@ -215,17 +221,17 @@ employee
 
 ## Transforming immutable data
 
-while `kotlin` provides a synthetic `copy` method on data classes dealing with nested data can be tedious
+while `kotlin` provides a synthetic `copy` dealing with nested data can be tedious
 
 ```kotlin
 employee.copy(
-        company = employee.company.copy(
-                address = employee.company.address.copy(
-                        street = employee.company.address.street.copy(
-                                name = employee.company.address.street.name.capitalize()
-                        )
-                )
-        )
+  company = employee.company.copy(
+    address = employee.company.address.copy(
+      street = employee.company.address.street.copy(
+        name = employee.company.address.street.name.capitalize()
+      )
+    )
+  )
 )
 //Employee(name=John Doe, company=Company(name=Kategory, address=Address(city=Functional city, street=Street(number=23, name=Lambda street))))
 ```
@@ -237,6 +243,9 @@ employee.copy(
 You may define composable `Lenses` to work with immutable data transformations
 
 ```kotlin
+import kategory.*
+import kategory.optics.*
+
 val employeeCompany: Lens<Employee, Company> = Lens(
         get = { it.company },
         set = { company -> { employee -> employee.copy(company = company) } }
@@ -247,17 +256,10 @@ val companyAddress: Lens<Company, Address> = Lens(
         set = { address -> { company -> company.copy(address = address) } }
 )
 
-val addressStrees: Lens<Address, Street> = Lens(
-        get = { it.street },
-        set = { street -> { address -> address.copy(street = street) } }
-)
+...
 
-val streetName: Lens<Street, String> = Lens(
-        get = { it.name },
-        set = { name -> { street -> street.copy(name = name) } }
-)
-
-val employeeStreetName: Lens<Employee, String> = employeeCompany compose companyAddress compose addressStrees compose streetName
+val employeeStreetName: Lens<Employee, String> = 
+  employeeCompany compose companyAddress compose addressStrees compose streetName
 
 employeeStreetName.modify(employee, String::capitalize)
 ```
@@ -279,18 +281,10 @@ Or just let KΛTEGORY `@lenses` do the dirty work
 -        get = { it.address },
 -        set = { address -> { company -> company.copy(address = address) } }
 - )
--
-- val addressStrees: Lens<Address, Street> = Lens(
--        get = { it.street },
--        set = { street -> { address -> address.copy(street = street) } }
-- )
--
-- val streetName: Lens<Street, String> = Lens(
--        get = { it.name },
--        set = { name -> { street -> street.copy(name = name) } }
-- )
+- ...
 
-val employeeStreetName: Lens<Employee, String> = employeeCompany compose companyAddress compose addressStrees compose streetName
+val employeeStreetName: Lens<Employee, String> = 
+  employeeCompany compose companyAddress compose addressStrees compose streetName
 
 employeeStreetName.modify(employee, String::capitalize)
 ```
@@ -302,9 +296,6 @@ employeeStreetName.modify(employee, String::capitalize)
 You can also define custom `Prism` for your sum types
 
 ```kotlin
-import kategory.*
-import kategory.optics.*
-
 sealed class NetworkResult {
     data class Success(val content: String): NetworkResult()
     object Failure: NetworkResult()
@@ -338,12 +329,10 @@ Or let `@prisms` do that for you
 +    data class Success(val content: String) : NetworkResult()
 +    object Failure : NetworkResult()
 + }
--
 - sealed class NetworkResult {
 -    data class Success(val content: String): NetworkResult()
 -    object Failure: NetworkResult()
 - }
--
 - val networkSuccessPrism: Prism<NetworkResult, NetworkResult.Success> = Prism(
 -        getOrModify = { networkResult ->
 -            when(networkResult) {
@@ -353,6 +342,12 @@ Or let `@prisms` do that for you
 -        },
 -        reverseGet = { networkResult -> networkResult } //::identity
 - )
+val networkResult = NetworkResult.Success("content")
+
+networkSuccessPrism.modify(networkResult) { success ->
+    success.copy(content = "different content")
+}
+//Success(content=different content)
 ```
 
 ---
@@ -367,9 +362,7 @@ Or let `@prisms` do that for you
 +  fun pinchIn(view: UiObject, percent: Int, val steps: Int): FreeS<F, Boolean>
 +  fun pinchOut(view: UiObject, percent: Int, val steps: Int): FreeS<F, Boolean>
 + }
--
 - typealias ActionDSL<A> = Free<GesturesDSLHK, A>
--
 - @higherkind sealed class GesturesDSL<A> : GesturesDSLKind<A> {
 -    object PressHome : GesturesDSL<Boolean>()
 -    data class Click(val view: UiObject) : GesturesDSL<Boolean>()
@@ -377,13 +370,10 @@ Or let `@prisms` do that for you
 -    data class PinchOut(val view: UiObject, val percent: Int, val steps: Int) : GesturesDSL<Boolean>()
 -    companion object : FreeMonadInstance<GesturesDSLHK>
 - }
--
 - fun click(view: UiObject): ActionDSL<Boolean> =
 -  Free.liftF(GesturesDSL.Click(ui))
--  
 - fun pinchIn(view: UiObject, percent: Int, val steps: Int): ActionDSL<Boolean> =
 -  Free.liftF(GesturesDSL.PinchIn(percent, steps))
--   
 - fun pinchOut(view: UiObject, percent: Int, val steps: Int): ActionDSL<Boolean> =
 -  Free.liftF(GesturesDSL.PinchOut(ui, percent, steps))
 ```
@@ -456,8 +446,9 @@ Fear not, `@higherkind`'s got your back!
 No notion of implicits or Type class instance evidences verified at compile time
 
 ```kotlin
-fun <F, A> A.some(AA: Applicative<OptionHK> /*<-- User is forced to provide instances explicitly */): Option<A> =
-  AA.pure(this).ev()
+fun <F, A> A.some(
+  AA: Applicative<OptionHK> /*<-- User is forced to provide instances explicitly */): Option<A> =
+    AA.pure(this).ev()
 
 1.some(Option.applicative()) //Option(1)
 ```
@@ -469,8 +460,9 @@ fun <F, A> A.some(AA: Applicative<OptionHK> /*<-- User is forced to provide inst
 `(for now)` an implicit lookup system based on a global registry is provided
 
 ```kotlin
-fun <A> A.some(AA: Applicative<OptionHK> = applicative() /*<-- Instances are discovered implicitly */): Option<A> =
-  AA.pure(this).ev()
+fun <A> A.some(
+  AA: Applicative<OptionHK> = applicative() /*<-- Instances are discovered implicitly */): Option<A> =
+    AA.pure(this).ev()
 
 1.some() //Option(1)
 ```
@@ -485,7 +477,7 @@ With emulated Higher Kinds and Type classes we can now write polymorphic code
 inline fun <reified F, reified E, A> raiseError(e: E, ME: MonadError<F, E> = monadError()): HK<F, A> =
    ME.raiseError(e)
 
-raiseError<EitherKindPartial<String>, String, Int>("Not Found").ev() // <-- This is far from a ideal but `KEEP` this thought
+raiseError<EitherKindPartial<String>, String, Int>("Not Found").ev() // <-- Not ideal
 //Left("Not Found")
 ```
 
@@ -530,7 +522,7 @@ sealed class Option<out A> : OptionKind<A> {
 
 ## @instance
 
-For those 3rd party data types not following conventions we can also generate the implicit machinery for discovery
+KΛTEGORY can also derive implicit discovery for manual instances
 
 ```kotlin
 @instance(Either::class)
@@ -565,7 +557,8 @@ extension object OptionFunctor: Functor<Option> { // <-- real Higher kinds posit
   fun <A, B> map(fa: Option<A>, f: (A) -> B): Option<B>  
 }
 
-fun <F<_>, A, B> transform(fa: F<A>, f: (A) -> B): F<B> given Functor<F> = map(fa, f) // <-- compile time verified
+fun <F<_>, A, B> transform(
+     fa: F<A>, f: (A) -> B): F<B> given Functor<F> = map(fa, f) // <-- compile time verified
 
 transform(Option(1), { it + 1 })// <-- no need to cast from HK representation
 //Option(2)
