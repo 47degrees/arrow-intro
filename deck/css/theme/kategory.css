@@ -309,6 +309,9 @@ body {
   border: 0;
   box-shadow: none; }
 
+.reveal .slides .table-large {
+  font-size: 20px; }
+
 .reveal table th,
 .reveal table td {
   border-bottom: 1px solid #C5D1E7; }
