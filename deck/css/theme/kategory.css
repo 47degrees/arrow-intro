@@ -319,7 +319,8 @@ body {
 .reveal .team ul li {
   display: inline-block;
   text-align: center;
-  margin: 14px; }
+  margin: 10px;
+  min-width: 130px; }
   .reveal .team ul li img {
     border-radius: 100%;
     width: 60px;

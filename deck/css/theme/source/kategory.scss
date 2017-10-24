@@ -82,7 +82,8 @@ $selectionColor: #fff; // Theme template ------------------------------
 			li {
 				display: inline-block;
 				text-align: center;
-				margin: 14px;
+				margin: 10px;
+				min-width: 130px;
 
 				img {
 					border-radius: 100%;
