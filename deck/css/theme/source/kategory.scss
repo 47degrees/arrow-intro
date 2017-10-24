@@ -29,8 +29,7 @@ $heading2Size: 1.8em;
 $headingTextTransform: normal;
 $linkColor: #61A8FF;
 $linkColorHover: lighten( $linkColor, 15% );
-$code-font-family: 'monoidregular', monospace;
-// Text selection
+$code-font-family: 'monoidregular', monospace; // Text selection
 $selectionBackgroundColor: #00B5E2;
 $selectionColor: #fff; // Theme template ------------------------------
 @import "../template/theme"; // ---------------------------------------------
@@ -75,7 +74,31 @@ $selectionColor: #fff; // Theme template ------------------------------
 		}
 	}
 }
+
+// Team
+.reveal {
+	.team {
+		ul {
+			li {
+				display: inline-block;
+				text-align: center;
+				margin: 14px;
+
+				img {
+					border-radius: 100%;
+				}
+
+				strong {
+					display: block;
+					font-weight: 400;
+					font-size: 14px;
+				}
+			}
+		}
+	}
+}
 // Join US
+
 .reveal {
 	.join-us {
 		table {
@@ -88,6 +111,7 @@ $selectionColor: #fff; // Theme template ------------------------------
 	}
 }
 // Code
+
 .reveal {
 	code,
 	pre {
@@ -119,6 +143,7 @@ $selectionColor: #fff; // Theme template ------------------------------
 	}
 }
 // Slide
+
 .reveal {
 	.slide-menu-button {
 		display: none;
@@ -159,19 +184,16 @@ $selectionColor: #fff; // Theme template ------------------------------
 }
 // Fix ul
 
+.fix-ul {
+	ul {
+		padding: 0 60px;
 
-	.fix-ul {
-		ul {
-			padding: 0 60px;
-			li {
-				margin: 20px 0;
-			}
+		li {
+			margin: 20px 0;
 		}
 	}
-
-
+}
 // Footer
-
 .reveal {
 	.footer {
 		position: fixed;
