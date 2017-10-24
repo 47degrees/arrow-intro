@@ -584,34 +584,34 @@ KΛTEGORY is inspired in great libraries that have proven useful to the FP commu
 ## Team
 
 
-- ![](https://github.com/anstaendig.png?size=48) **@anstaendig**
-- ![](https://github.com/arturogutierrez.png?size=48) **@arturogutierrez**
-- ![](https://github.com/ffgiraldez.png?size=48) **@ffgiraldez**
-- ![](https://github.com/Guardiola31337.png?size=48) **@Guardiola31337**
-- ![](https://github.com/javipacheco.png?size=48) **@javipacheco**
-- ![](https://github.com/JMPergar.png?size=48)  **@JMPergar**
-- ![](https://github.com/JorgeCastilloPrz.png?size=48) **@JorgeCastilloPrz**
-- ![](https://github.com/jrgonzalezg.png?size=48) **@jrgonzalezg**
-- ![](https://github.com/nomisRev.png?size=48) **@nomisRev**
-- ![](https://github.com/npatarino.png?size=48) **@npatarino**
-- ![](https://github.com/pablisco.png?size=48) **@pablisco**
-- ![](https://github.com/pakoito.png?size=48)  **@pakoit**
-- ![](https://github.com/pedrovgs.png?size=48) **@pedrovgs**
-- ![](https://github.com/pt2121.png?size=48)   **@pt2121**
-- ![](https://github.com/raulraja.png?size=48) **@raulraja**
-- ![](https://github.com/wiyarmir.png?size=48) **@wiyarmir**
-- ![](https://github.com/andyscott.png?size=48) **@andyscott**
-- ![](https://github.com/Atternatt.png?size=48) **@Atternatt**
-- ![](https://github.com/calvellido.png?size=48) **@calvellido**
-- ![](https://github.com/dominv.png?size=48) **@dominv**
-- ![](https://github.com/GlenKPeterson.png?size=48) **@GlenKPeterson**
-- ![](https://github.com/israelperezglez.png?size=48) **@israelperezglez**
-- ![](https://github.com/sanogueralorenzo.png?size=48) **@sanogueralorenzo**
-- ![](https://github.com/Takhion.png?size=48) **@Takhion**
-- ![](https://github.com/victorg1991.png?size=48) **@victorg1991**
-- ![](https://github.com/tonilopezmr.png?size=48) **@tonilopezmr**
-- ![](https://github.com/NigelHeylen.png?size=48) **@NigelHeylen**
-- ![](https://github.com/ersin-ertan.png?size=48) **@ersin-ertan**
+- ![](https://github.com/anstaendig.png) **@anstaendig**
+- ![](https://github.com/arturogutierrez.png) **@arturogutierrez**
+- ![](https://github.com/ffgiraldez.png) **@ffgiraldez**
+- ![](https://github.com/Guardiola31337.png) **@Guardiola31337**
+- ![](https://github.com/javipacheco.png) **@javipacheco**
+- ![](https://github.com/JMPergar.png)  **@JMPergar**
+- ![](https://github.com/JorgeCastilloPrz.png) **@JorgeCastilloPrz**
+- ![](https://github.com/jrgonzalezg.png) **@jrgonzalezg**
+- ![](https://github.com/nomisRev.png) **@nomisRev**
+- ![](https://github.com/npatarino.png) **@npatarino**
+- ![](https://github.com/pablisco.png) **@pablisco**
+- ![](https://github.com/pakoito.png)  **@pakoit**
+- ![](https://github.com/pedrovgs.png) **@pedrovgs**
+- ![](https://github.com/pt2121.png)   **@pt2121**
+- ![](https://github.com/raulraja.png) **@raulraja**
+- ![](https://github.com/wiyarmir.png) **@wiyarmir**
+- ![](https://github.com/andyscott.png) **@andyscott**
+- ![](https://github.com/Atternatt.png) **@Atternatt**
+- ![](https://github.com/calvellido.png) **@calvellido**
+- ![](https://github.com/dominv.png) **@dominv**
+- ![](https://github.com/GlenKPeterson.png) **@GlenKPeterson**
+- ![](https://github.com/israelperezglez.png) **@israelperezglez**
+- ![](https://github.com/sanogueralorenzo.png) **@sanogueralorenzo**
+- ![](https://github.com/Takhion.png) **@Takhion**
+- ![](https://github.com/victorg1991.png) **@victorg1991**
+- ![](https://github.com/tonilopezmr.png) **@tonilopezmr**
+- ![](https://github.com/NigelHeylen.png) **@NigelHeylen**
+- ![](https://github.com/ersin-ertan.png) **@ersin-ertan**
 
 
 ---

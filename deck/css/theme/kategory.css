@@ -321,7 +321,9 @@ body {
   text-align: center;
   margin: 14px; }
   .reveal .team ul li img {
-    border-radius: 100%; }
+    border-radius: 100%;
+    width: 60px;
+    height: 60px; }
   .reveal .team ul li strong {
     display: block;
     font-weight: 400;
