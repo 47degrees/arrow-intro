@@ -406,3 +406,18 @@ body {
         padding-left: 0; }
       .reveal .footer ul li:nth-child(3) {
         border: none; }
+
+.reveal .slides section:last-child ul {
+  margin: 0;
+  padding: 0; }
+  .reveal .slides section:last-child ul li {
+    display: inline-block;
+    margin-right: 15px; }
+    .reveal .slides section:last-child ul li:last-child {
+      margin-right: 0; }
+    .reveal .slides section:last-child ul li img {
+      width: 80px;
+      height: auto; }
+    .reveal .slides section:last-child ul li a:hover img {
+      box-shadow: none;
+      opacity: 0.8; }

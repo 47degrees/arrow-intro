@@ -135,8 +135,8 @@ Stack-Safe comprehensions for Stack-Unsafe data types
 fun <F> stackSafeTestProgram(M: Monad<F>, n: Int = 0, stopAt: Int = 1000000): Free<F, Int> =
         M.bindingStackSafe {
             val v = pure(n + 1).bind() // <-- auto binds on `Free<F, Int>`
-            val r = if (v < stopAt) stackSafeTestProgram(M, v, stopAt).bind() 
-                    else pure(v).bind() 
+            val r = if (v < stopAt) stackSafeTestProgram(M, v, stopAt).bind()
+                    else pure(v).bind()
             yields(r)
         }
 
@@ -187,8 +187,8 @@ Allows seamless integration with existing libraries like RxJava
 
 ```kotlin
 observableMonad.binding {
-    val ticks = runAsync(observableAsync) { 
-                    videoPlayer.getCurrentMilliseconds() 
+    val ticks = runAsync(observableAsync) {
+                    videoPlayer.getCurrentMilliseconds()
                 }.subscribeOn(mainThread())
     val initialTick = ticks.bind()
     val timer = Observable.interval(100, MilliSeconds).k().bind()
@@ -209,9 +209,9 @@ data class Address(val city: String, val street: Street)
 data class Company(val name: String, val address: Address)
 data class Employee(val name: String, val company: Company)
 
-val employee = Employee("John Doe", 
-                 Company("Kategory", 
-                  Address("Functional city", 
+val employee = Employee("John Doe",
+                 Company("Kategory",
+                  Address("Functional city",
                     Street(23, "lambda street"))))
 employee
 //Employee(name=John Doe, company=Company(name=Kategory, address=Address(city=Functional city, street=Street(number=23, name=lambda street))))
@@ -258,7 +258,7 @@ val companyAddress: Lens<Company, Address> = Lens(
 
 ...
 
-val employeeStreetName: Lens<Employee, String> = 
+val employeeStreetName: Lens<Employee, String> =
   employeeCompany compose companyAddress compose addressStrees compose streetName
 
 employeeStreetName.modify(employee, String::capitalize)
@@ -283,7 +283,7 @@ Or just let KΛTEGORY `@lenses` do the dirty work
 - )
 - ...
 
-val employeeStreetName: Lens<Employee, String> = 
+val employeeStreetName: Lens<Employee, String> =
   employeeCompany compose companyAddress compose addressStrees compose streetName
 
 employeeStreetName.modify(employee, String::capitalize)
@@ -642,3 +642,7 @@ We provide 1:1 mentoring for both users & new contributors!
 ## Thanks!
 
 Thanks to everyone that makes KΛTEGORY possible
+
+- [![](custom/images/47deg-logo.png)](https://www.47deg.com/)
+- [![](custom/images/lw-logo.png)](http://www.lambda.world/)
+- [![](custom/images/FineCinnamon.png)](https://github.com/FineCinnamon)
