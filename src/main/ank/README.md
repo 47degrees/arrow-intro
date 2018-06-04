@@ -424,6 +424,7 @@ NetworkResult.networkError.httpError.message.modify(networkResult, f)
 | arrow-generic | Generic programming with products, coproducts and derivation |
 | arrow-streams | A functional `Stream<F, A>` impl that abstract over F and complementes `arrow-effect` |
 | arrow-android | FP solutions to common Android issues `Ex: Activity lifecycle` |
+| bow | Arrow for iOS built on swift |
 
 ---
 
@@ -782,7 +783,7 @@ Efficient data access with id dedup, parallelization, batching and caching.
 |--------|-------------------------------------------------|
 | Github | https://github.com/arrow-kt/arrow                     |
 | Slack  | https://kotlinlang.slack.com/messages/C5UPMM0A0 |
-| Gitter | https://gitter.im/kategory/Lobby                |
+| Gitter | https://gitter.im/arrow-kt/Lobby               |
 
 We provide 1:1 mentoring for both users & new contributors!
 
