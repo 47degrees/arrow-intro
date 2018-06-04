@@ -6,7 +6,7 @@ slide
 
 It includes the most popular data types, type classes and abstractions such as Option, Try, Either, IO, Functor, Applicative, Monad and many more empowering users to define pure FP apps and libraries built atop higher order abstractions. Use the below list to learn more about Λrrow’s main features.
 
-- [PDF and slides on speakerdeck](https://speakerdeck.com/raulraja/arrow-intro)
+- [PDF and slides on speakerdeck](https://speakerdeck.com/raulraja/lrrow-toward-functional-programming-in-kotlin)
 - [Deck Markdown sources](src/main/ank/README.md)
 
 If you wish to run this in a local environment on reveal.js at http://localhost:8000/ : 
