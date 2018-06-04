@@ -2,79 +2,67 @@
 <html>
 
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-  <title>KΛTEGORY - Introduction</title>
+    <title>Λrrow - Introduction</title>
 
-  <link rel="stylesheet" href="css/reveal.css">
-  <!-- Theme used for syntax highlighting of code -->
-  <link rel="stylesheet" href="custom/css/code-theme.css">
+    <link rel="stylesheet" href="css/reveal.css">
+    <!-- Theme used for syntax highlighting of code -->
+    <link rel="stylesheet" href="custom/css/code-theme.css">
     <link rel="stylesheet" href="css/theme/kategory.css">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js">
-  </script>
-  <script src="//cdnjs.cloudflare.com/ajax/libs/numeral.js/2.0.6/numeral.min.js"></script>
-  <script src="http://underscorejs.org/underscore-min.js">
-  </script>
-  <script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js">
+    </script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/numeral.js/2.0.6/numeral.min.js"></script>
+    <script src="http://underscorejs.org/underscore-min.js">
+    </script>
+    <script>
     var link = document.createElement('link');
     link.rel = 'stylesheet';
     link.type = 'text/css';
     link.href = window.location.search.match(/print-pdf/gi) ? 'css/print/pdf.css' : 'css/print/paper.css';
     document.getElementsByTagName('head')[0].appendChild(link);
-  </script>
+
+    </script>
 </head>
 
 
 <body>
-  <div class="reveal">
+<div class="reveal">
     <div class="slides">
-      <section class="cover" data-background="../custom/images/cover-background.png">
-        <img src="custom/images/kategory-logo.svg" alt="">
-        <h2>KΛTEGORY</h2>
-        <p>Functional Data Types & Abstractions for Kotlin</p>
-      </section>
-      <section class="about">
-        <h2>About Us</h2>
-        <ul>
-          <li>
-            <img src="https://github.com/raulraja.png" alt="">
-            <h3>Raul Raja</h3>
-            <a href="https://twitter.com/raulraja">@raulraja</a>
-            <p>CTO @47deg</p>
+        <section class="cover" data-background="../custom/images/cover-background.png">
+            <img src="custom/images/arrow-brand-transparent.svg" width="256" alt="Arrow logo">
+            <h2>Λrrow</h2>
+            <p>Functional Data Types & Abstractions for Kotlin</p>
+        </section>
+        <section class="about">
+            <h2>About Me</h2>
+            <ul>
+                <li>
+                    <img src="https://github.com/raulraja.png" alt="">
+                    <h3>Raul Raja</h3>
+                    <a href="https://twitter.com/raulraja">@raulraja</a>
+                    <p>CTO <a href="http://twitter.com/47deg">@47deg</a></p>
 
-          </li>
-          <li>
-            <img src="https://github.com/pakoito.png" alt="">
-            <h3>Paco</h3>
-            <a href="https://twitter.com/pacoworks">@pacoworks</a>
-            <p>Mistake-driven learning</p>
-          </li>
-          <li>
-            <img src="https://github.com/nomisRev.png" alt="">
-            <h3>Simon Vergauwen</h3>
-            <a href="https://twitter.com/vergauwen_simon">@vergauwen_simon</a>
-            <p>Optometrist</p>
-          </li>
-        </ul>
-      </section>
-      <section data-markdown="README.md" data-separator-notes="^Note:" data-state="slides"></section>
+                </li>
+            </ul>
+        </section>
+        <section data-markdown="README.md" data-separator-notes="^Note:" data-state="slides"></section>
     </div>
     <div class="footer">
-      <ul>
-        <li><a href="http://twitter.com/raulraja">@raulraja</a></li>
-        <li><a href="http://twitter.com/pacoworks">@pacoworks</a></li>
-        <li><a href="http://twitter.com/vergauwen_simon">@vergauwen_simon</a></li>
-        <li><a href="http://kategory.io">kategory.io</a></li>
-      </ul>
+        <ul>
+            <li><a href="http://twitter.com/raulraja">@raulraja</a></li>
+            <li><a href="http://twitter.com/47deg">@47deg</a></li>
+            <li><a href="https://arrow-kt.io">arrow-kt.io</a></li>
+        </ul>
     </div>
-  </div>
+</div>
 
-  <script src="lib/js/head.min.js"></script>
-  <script src="js/reveal.js"></script>
+<script src="lib/js/head.min.js"></script>
+<script src="js/reveal.js"></script>
 
-  <script>
+<script>
     // More info https://github.com/hakimel/reveal.js#configuration
     Reveal.initialize({
       controls: false,
@@ -110,8 +98,9 @@
       renderFunctionKGraph();
       renderCoproductGraph();
     });
-  </script>
-  <script>
+
+</script>
+<script>
     Chart.defaults.global.defaultFontColor = '#fff';
     Chart.defaults.global.defaultFontFamily = 'pragmatapro';
 
@@ -217,7 +206,8 @@
         });
       });
     }
-  </script>
+
+</script>
 </body>
 
 </html>

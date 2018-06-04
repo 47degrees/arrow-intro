@@ -60,40 +60,37 @@ We merged with Funktionale to provide a single path to FP in Kotlin
 
 ## A few syntax examples
 
-```kotlin
+```kotlin:ank
 import arrow.*
 import arrow.core.*
 import arrow.intro.* // slides stuff
 
 Option(1).map { it + 1 }
-// Some(2)
 ```
 
 ---
 
 ## A few syntax examples
 
-```kotlin
+```kotlin:ank
 Try<Int> { throw RuntimeException("BOOM!") }.map { it + 1 }
-// Failure(exception=java.lang.RuntimeException: BOOM!)
 ```
 
 ---
 
 ## A few syntax examples
 
-```kotlin
+```kotlin:ank
 val x = Right(1)
 val y = 1.right()
 x == y
-// true
 ```
 
 ---
 
 ## Applicative Builder
 
-```kotlin
+```kotlin:ank
 import arrow.instances.*
 
 data class Profile(val id: Long, val name: String, val phone: Int)
@@ -106,7 +103,6 @@ fun profile(maybeId: Option<Long>, maybeName: Option<String>, maybePhone: Option
   }
 
 profile(1L.some(), "William Alvin Howard".some(), 555555555.some())
-// Some(Profile(id=1, name=William Alvin Howard, phone=555555555))
 ```
 
 ---
@@ -149,7 +145,7 @@ profile(Try { 1L }, Try { "William Alvin Howard" }, Try { 555555555 })
 
 Generalized to all monads. A suspended function provides a non blocking `F<A> -> A`
 
-```kotlin
+```kotlin:ank
 import arrow.typeclasses.*
 
 fun profile(maybeId: Option<Long>,
@@ -165,7 +161,6 @@ fun profile(maybeId: Option<Long>,
   }
 
 profile(2L.some(), "Haskell Brooks Curry".some(), 555555555.some())
-// Some(Profile(id=2, name=Haskell Brooks Curry, phone=555555555))
 ```
 
 ---
@@ -174,7 +169,7 @@ profile(2L.some(), "Haskell Brooks Curry".some(), 555555555.some())
 
 Automatically captures exceptions for instances of `MonadError<F, Throwable>`
 
-```kotlin
+```kotlin:ank
 ForTry extensions { 
   bindingCatch {
       val a = Try { 1 }.bind()
@@ -184,7 +179,6 @@ ForTry extensions {
       a + b + c
   }
 }
-// Failure(exception=java.lang.RuntimeException: BOOM)
 ```
 
 ---
@@ -193,7 +187,7 @@ ForTry extensions {
 
 Imperative filtering control for data types that can provide `empty` values.
 
-```kotlin
+```kotlin:ank
 import arrow.data.*
 import arrow.mtl.typeclasses.*
 import arrow.mtl.instances.*
@@ -205,13 +199,11 @@ fun <F> MonadFilter<F>.continueIfEven(fa: Kind<F, Int>): Kind<F, Int> =
     v + 1
   }
 ```
-```kotlin
+```kotlin:ank
 ForOption extensions { continueIfEven(Option(2)) }
-// Some(3)
 ```
-```kotlin
+```kotlin:ank
 ForListK extensions { continueIfEven(listOf(2, 4, 6).k()) }
-// ListK(list=[3, 5, 7])
 ```
 
 ---
@@ -289,13 +281,12 @@ data class Employee(val name: String, val company: Company)
 
 Λrrow includes an `optics` library that make working with immutable data a breeze
 
-```kotlin
+```kotlin:ank
 val employee = Employee("John Doe",
                  Company("Λrrow",
                   Address("Functional city",
                     Street(23, "lambda street")))) 
 employee
-// Employee(name=John Doe, company=Company(name=Λrrow, address=Address(city=Functional city, street=Street(number=23, name=lambda street))))
 ```
 
 ---
@@ -304,7 +295,7 @@ employee
 
 while `kotlin` provides a synthetic `copy` dealing with nested data can be tedious
 
-```kotlin
+```kotlin:ank
 employee.copy(
   company = employee.company.copy(
     address = employee.company.address.copy(
@@ -314,7 +305,6 @@ employee.copy(
     )
   )
 )
-// Employee(name=John Doe, company=Company(name=Λrrow, address=Address(city=Functional city, street=Street(number=23, name=Lambda street))))
 ```
 
 ---
@@ -342,14 +332,13 @@ val companyAddress: Lens<Company, Address> = Lens(
 
 You may define composable `Lenses` to work with immutable data transformations
 
-```kotlin
+```kotlin:ank
 import arrow.optics.*
 
 val employeeStreetName: Lens<Employee, String> =
   Employee.company compose Company.address compose Address.street compose Street.name
 
 employeeStreetName.modify(employee, String::capitalize)
-// Employee(name=John Doe, company=Company(name=Λrrow, address=Address(city=Functional city, street=Street(number=23, name=Lambda street))))
 ```
 
 ---
@@ -378,11 +367,10 @@ Or just let Λrrow `@optics` do the dirty work
 
 Optics comes with a succinct and powerful DSL to manipulate deeply nested immutable properties
 
-```kotlin
+```kotlin:ank
 import arrow.optics.dsl.*
 
 Employee.company.address.street.name.modify(employee, String::toUpperCase)
-// Employee(name=John Doe, company=Company(name=Λrrow, address=Address(city=Functional city, street=Street(number=23, name=LAMBDA STREET))))
 ```
 
 ---
@@ -405,7 +393,7 @@ object TimeoutError: NetworkError()
 
 Where you operate over sealed hierarchies manually...
 
-```kotlin
+```kotlin:ank
 val networkResult: NetworkResult = HttpError("boom!")
 val f: (String) -> String = String::toUpperCase
 
@@ -415,7 +403,6 @@ val result = when (networkResult) {
 }
 
 result
-// HttpError(message=BOOM!)
 ```
 
 ---
@@ -424,9 +411,8 @@ result
 
 ...you cruise now through properties with the new optics DSL
 
-```kotlin
+```kotlin:ank
 NetworkResult.networkError.httpError.message.modify(networkResult, f)
-// HttpError(message=BOOM!)
 ```
 
 ---
@@ -489,7 +475,7 @@ Fear not, `@higherkind`'s got your back!
 
 With emulated Higher Kinds and Type classes we can now write polymorphic code
 
-```kotlin
+```kotlin:ank
 import arrow.Kind
 import arrow.core.*
 import arrow.effects.*
@@ -502,7 +488,7 @@ import arrow.typeclasses.*
 
 With emulated Higher Kinds and Type classes we can now write polymorphic code
 
-```kotlin
+```kotlin:ank
 interface Service1<F> : Functor<F> {
   fun Kind<F, Int>.addOne(): Kind<F, Int> =
     map { it + 1 }
@@ -555,13 +541,12 @@ fun <F, A> Functor<F>.app(f: App<F>.() -> A): A =
 
 Program that are abstract and work in many runtimes!
 
-```kotlin
+```kotlin:ank
 ForOption extensions { 
   app { 
     Option(1).addThree() 
   }
 }
-// Some(4)
 ```
 
 ---
@@ -570,13 +555,12 @@ ForOption extensions {
 
 Program that are abstract and work in many runtimes!
 
-```kotlin
+```kotlin:ank
 ForTry extensions { 
   app { 
     Try { 1 }.addThree() 
   }
 }
-// Success(value=4)
 ```
 
 ---
@@ -585,13 +569,12 @@ ForTry extensions {
 
 Program that are abstract and work in many runtimes!
 
-```kotlin
+```kotlin:ank
 ForIO extensions { 
   app { 
     IO { 1 }.addThree().fix().unsafeRunSync()
   }
 } 
-// 4
 ```
 
 ---
