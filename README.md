@@ -1,7 +1,7 @@
 # Λrrow https://arrow-kt.io
 
 This presentation shows the current Features available as of Λrrow 0.7.2
-slide
+
 Λrrow is a library for Typed Functional Programming in Kotlin. 
 
 It includes the most popular data types, type classes and abstractions such as Option, Try, Either, IO, Functor, Applicative, Monad and many more empowering users to define pure FP apps and libraries built atop higher order abstractions. Use the below list to learn more about Λrrow’s main features.
